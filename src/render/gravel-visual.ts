@@ -1,0 +1,10 @@
+import * as T from 'three';
+import {gravelShape,ROCK_COUNT} from '../robot/gravel';
+import {surfaceTexture} from './materials';
+/** Render geometry is the exact mesh used for volume and inertia integration. */
+export class GravelVisual {
+ readonly group=new T.Group();private batches:T.InstancedMesh[]=[];private dummy=new T.Object3D();private q0=new T.Quaternion();private q1=new T.Quaternion();
+ constructor(scene:T.Scene,setup:(material:T.MeshStandardMaterial)=>void){const texture=surfaceTexture('concrete',256);texture.repeat.set(2,2);const shades=[0x686b65,0x777469,0x585f60,0x8a8170,0x626867,0x706959,0x8c8c80,0x535b5f];for(let variant=0;variant<8;variant++){const shape=gravelShape(variant),geometry=new T.BufferGeometry();geometry.setAttribute('position',new T.Float32BufferAttribute(shape.vertices,3));geometry.setIndex(Array.from(shape.triangles));geometry.computeVertexNormals();const material=new T.MeshStandardMaterial({color:shades[variant],roughness:.91,metalness:.03,bumpMap:texture,bumpScale:.0015,flatShading:true});setup(material);const mesh=new T.InstancedMesh(geometry,material,ROCK_COUNT/8);mesh.castShadow=mesh.receiveShadow=true;mesh.frustumCulled=false;this.batches.push(mesh);this.group.add(mesh);}scene.add(this.group);this.group.visible=false;}
+ update(data:Float64Array,previous:number,current:number,alpha:number,count:number){this.group.visible=count>0;for(let i=0;i<count;i++){const a=previous+i*7,b=current+i*7;this.dummy.position.set(data[a]+alpha*(data[b]-data[a]),data[a+1]+alpha*(data[b+1]-data[a+1]),data[a+2]+alpha*(data[b+2]-data[a+2]));this.q0.fromArray(data,a+3);this.q1.fromArray(data,b+3);this.dummy.quaternion.slerpQuaternions(this.q0,this.q1,alpha);this.dummy.updateMatrix();this.batches[i%8].setMatrixAt(Math.floor(i/8),this.dummy.matrix);}for(const batch of this.batches)batch.instanceMatrix.needsUpdate=true;}
+ dispose(){for(const mesh of this.batches){mesh.geometry.dispose();(mesh.material as T.Material).dispose();}this.group.removeFromParent();}
+}

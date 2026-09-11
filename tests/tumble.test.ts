@@ -1,0 +1,4 @@
+import {it,expect} from 'vitest';
+import {readFileSync} from 'node:fs';
+import {RobotSimulation} from '../src/robot/simulation';
+it('rock kick conserves the prescribed impulse and creates physical rotation',()=>{const s=new RobotSimulation(readFileSync('src/robot/q14.urdf','utf8'));s.reset('gravel');const rock=s.gravel!.rocks[3],before=new Float64Array(6),after=new Float64Array(6);rock.momentum(before);s.gravel!.tumble();rock.momentum(after);expect(after[3]-before[3]).toBeCloseTo(.08,10);expect(after[4]-before[4]).toBeCloseTo(.035,10);expect(after[5]-before[5]).toBeCloseTo(.18,10);expect(Math.hypot(rock.v[0],rock.v[1],rock.v[2])).toBeGreaterThan(.5);const q=rock.orientation.slice();for(let i=0;i<100;i++)s.step();expect(Math.abs(rock.orientation[0]-q[0])+Math.abs(rock.orientation[1]-q[1])).toBeGreaterThan(.01);for(const v of rock.v)expect(Number.isFinite(v)).toBe(true);},30000);

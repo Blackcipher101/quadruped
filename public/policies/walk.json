@@ -1,0 +1,117 @@
+{
+  "method": "Cross-entropy optimization of sensor-driven CPG/IK parameters",
+  "seed": 20260910,
+  "terrain": "flat",
+  "trained": true,
+  "baseline": {
+    "reward": 26.11638895907149,
+    "distance": 1.2809363339024882,
+    "aliveSeconds": 5,
+    "minHeight": 0.34371409261139774,
+    "energyJ": 151.22929980183227
+  },
+  "best": {
+    "reward": 27.916964607992934,
+    "distance": 0.994961606067234,
+    "aliveSeconds": 5,
+    "minHeight": 0.34602686948738653,
+    "energyJ": 133.02831873350362
+  },
+  "parameters": {
+    "period": 0.4375174247381258,
+    "duty": 0.6251360743290014,
+    "height": 0.3358069608959876,
+    "clearance": 0.047299491921445946,
+    "strideGain": 2.090289883813001,
+    "balance": 0.48592548102893046,
+    "velocityGain": 0.03369483111346581,
+    "feedforward": 0.07232348027060946,
+    "kp": 92.26767197169781,
+    "kd": 4.087421606281104,
+    "footOffset": -0.04703547775902453
+  },
+  "history": [
+    {
+      "generation": 1,
+      "evaluations": 10,
+      "bestReward": 27.426481567073388,
+      "distance": 1.151823076523195,
+      "aliveSeconds": 5
+    },
+    {
+      "generation": 2,
+      "evaluations": 20,
+      "bestReward": 27.46873275866116,
+      "distance": 0.911665149439575,
+      "aliveSeconds": 5
+    },
+    {
+      "generation": 3,
+      "evaluations": 30,
+      "bestReward": 27.860947104052467,
+      "distance": 1.0298573947702878,
+      "aliveSeconds": 5
+    },
+    {
+      "generation": 4,
+      "evaluations": 40,
+      "bestReward": 27.860947104052467,
+      "distance": 1.0298573947702878,
+      "aliveSeconds": 5
+    },
+    {
+      "generation": 5,
+      "evaluations": 50,
+      "bestReward": 27.860947104052467,
+      "distance": 1.0298573947702878,
+      "aliveSeconds": 5
+    },
+    {
+      "generation": 6,
+      "evaluations": 60,
+      "bestReward": 27.860947104052467,
+      "distance": 1.0298573947702878,
+      "aliveSeconds": 5
+    },
+    {
+      "generation": 7,
+      "evaluations": 70,
+      "bestReward": 27.860947104052467,
+      "distance": 1.0298573947702878,
+      "aliveSeconds": 5
+    },
+    {
+      "generation": 8,
+      "evaluations": 80,
+      "bestReward": 27.916964607992934,
+      "distance": 0.994961606067234,
+      "aliveSeconds": 5
+    }
+  ],
+  "heldOut": [
+    {
+      "seed": 7,
+      "reward": 27.921719095756533,
+      "distance": 0.9956848691603721,
+      "aliveSeconds": 5,
+      "minHeight": 0.3460414474306286,
+      "energyJ": 132.81795168030652
+    },
+    {
+      "seed": 91,
+      "reward": 27.914878805659924,
+      "distance": 0.9948315293610552,
+      "aliveSeconds": 5,
+      "minHeight": 0.34602746047516364,
+      "energyJ": 132.6972061506422
+    },
+    {
+      "seed": 813,
+      "reward": 27.916625337773514,
+      "distance": 0.9943602618929719,
+      "aliveSeconds": 5,
+      "minHeight": 0.34602354964722065,
+      "energyJ": 132.74067724097281
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+import {it,expect} from 'vitest';
+import {readFileSync} from 'node:fs';
+import {RobotSimulation} from '../src/robot/simulation';
+it('40 loose gravel bodies settle alongside a sensor-driven standing robot',()=>{const s=new RobotSimulation(readFileSync('src/robot/q14.urdf','utf8'));s.reset('gravel');let penetration=0;const start=performance.now();for(let i=0;i<2500;i++){s.step();penetration=Math.max(penetration,s.ground.maxPenetration);}console.log('gravel 40 mean ms/step',(performance.now()-start)/2500,'penetration',penetration,'base',s.dynamics.position[2]);expect(s.gravel!.rocks.length).toBe(40);expect(s.dynamics.position[2]).toBeGreaterThan(.25);expect(penetration).toBeLessThan(.008);for(const d of s.gravel!.rocks){expect(d.position[2]).toBeGreaterThan(.01);expect(d.position[2]).toBeLessThan(.16);expect(Number.isFinite(d.v[0])).toBe(true);}},120000);

@@ -1,0 +1,13 @@
+{
+  "method": "Evaluation of flat-ground trained policy; no water-specific training",
+  "aliveSeconds": 10,
+  "position": [
+    1.9087266679244432,
+    -0.09318796253640538,
+    0.3464550911851198
+  ],
+  "minHeight": 0.34526909000411216,
+  "maxDensity": 1197.1153852328193,
+  "meanStepMs": 13.1444782708,
+  "fluid": "1120 particles, 40 mm spacing, weakly compressible SPH; subgrid sphere coupling"
+}

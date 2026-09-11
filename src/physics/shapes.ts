@@ -1,0 +1,16 @@
+import {meshInertia,type Convex} from './convex';
+import {Model} from './model';
+import {Dynamics} from './dynamics';
+import {vec,type V} from './spatial';
+export const BOX_TRIANGLES=Uint32Array.of(0,2,1,0,3,2,4,5,6,4,6,7,0,1,5,0,5,4,3,7,6,3,6,2,0,4,7,0,7,3,1,2,6,1,6,5);
+export function boxVertices(x:number,y:number,z:number){return Float64Array.of(-x,-y,-z,x,-y,-z,x,y,-z,-x,y,-z,-x,-y,z,x,-y,z,x,y,z,-x,y,z);}
+export interface Hull extends Convex {triangles:Uint32Array;planes:V;edges:V;world:V;system:number;body:number;mu:number;restitution:number;rolling:number;spinning:number;terrainContact:boolean;}
+export function hull(d:Dynamics,system:number,body:number,vertices:V,triangles:Uint32Array,mu=.7):Hull{
+ const planes=vec(triangles.length/3*4);
+ for(let f=0;f<triangles.length/3;f++){const a=triangles[f*3]*3,b=triangles[f*3+1]*3,c=triangles[f*3+2]*3,ux=vertices[b]-vertices[a],uy=vertices[b+1]-vertices[a+1],uz=vertices[b+2]-vertices[a+2],vx=vertices[c]-vertices[a],vy=vertices[c+1]-vertices[a+1],vz=vertices[c+2]-vertices[a+2];let x=uy*vz-uz*vy,y=uz*vx-ux*vz,z=ux*vy-uy*vx;const norm=Math.hypot(x,y,z);x/=norm;y/=norm;z/=norm;planes.set([x,y,z,x*vertices[a]+y*vertices[a+1]+z*vertices[a+2]],f*4);}
+ const edgeMap=new Map<string,{a:number;b:number;faces:number[]}>();for(let f=0;f<triangles.length/3;f++)for(let k=0;k<3;k++){const a=triangles[f*3+k],b=triangles[f*3+(k+1)%3],key=Math.min(a,b)+':'+Math.max(a,b);if(!edgeMap.has(key))edgeMap.set(key,{a,b,faces:[]});edgeMap.get(key)!.faces.push(f);}const edges:number[]=[];for(const {a,b,faces} of edgeMap.values()){if(faces.length===2){const i=faces[0]*4,j=faces[1]*4;if(planes[i]*planes[j]+planes[i+1]*planes[j+1]+planes[i+2]*planes[j+2]>.999999)continue;}let x=vertices[b*3]-vertices[a*3],y=vertices[b*3+1]-vertices[a*3+1],z=vertices[b*3+2]-vertices[a*3+2];const length=Math.hypot(x,y,z);x/=length;y/=length;z/=length;let duplicate=false;for(let i=0;i<edges.length;i+=3)if(Math.abs(x*edges[i]+y*edges[i+1]+z*edges[i+2])>.999999)duplicate=true;if(!duplicate)edges.push(x,y,z);}
+ return {vertices,triangles,planes,edges:Float64Array.from(edges),world:vec(vertices.length),rotation:d.bodies[body].R,position:d.bodies[body].p,system,body,mu,restitution:.1,rolling:.003,spinning:.001,terrainContact:true};
+}
+export function rigidHull(vertices:V,triangles=BOX_TRIANGLES,density=2400){const props=meshInertia(vertices,triangles,density);return new Dynamics(new Model([{name:'rock',parent:-1,mass:props.mass,com:Array.from(props.com),inertia:Array.from(props.inertia),offset:[0,0,0],axis:[0,0,1]}],true));}
+/** Affinely transformed icosahedron: an exact closed convex triangular rock mesh. */
+export function rockMesh(index:number,size=.065){const p=(1+Math.sqrt(5))/2,vertices=Float64Array.of(-1,p,0,1,p,0,-1,-p,0,1,-p,0,0,-1,p,0,1,p,0,-1,-p,0,1,-p,p,0,-1,p,0,1,-p,0,-1,-p,0,1),triangles=Uint32Array.of(0,11,5,0,5,1,0,1,7,0,7,10,0,10,11,1,5,9,5,11,4,11,10,2,10,7,6,7,1,8,3,9,4,3,4,2,3,2,6,3,6,8,3,8,9,4,9,5,2,4,11,6,2,10,8,6,7,9,8,1);const sx=size*(.85+.15*Math.sin(index*7)),sy=size*(.8+.2*Math.cos(index*3)),sz=size*(.6+.1*Math.sin(index*5));for(let i=0;i<vertices.length;i+=3){const x=vertices[i],y=vertices[i+1],z=vertices[i+2];vertices[i]=sx*(x+.13*y);vertices[i+1]=sy*(y+.1*z);vertices[i+2]=sz*z;}return {vertices,triangles};}

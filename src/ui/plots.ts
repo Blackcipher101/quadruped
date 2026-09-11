@@ -1,0 +1,6 @@
+export class Plot {
+ private readonly values:Float32Array[];private head=0;private count=0;private context:CanvasRenderingContext2D;
+ constructor(readonly canvas:HTMLCanvasElement,readonly colors:string[],readonly min:number,readonly max:number){this.values=colors.map(()=>new Float32Array(360));this.context=canvas.getContext('2d')!;}
+ add(values:ArrayLike<number>,offset=0){for(let i=0;i<this.values.length;i++)this.values[i][this.head]=values[offset+i];this.head=(this.head+1)%360;this.count=Math.min(360,this.count+1);}
+ draw(){const dpr=Math.min(devicePixelRatio,2),width=this.canvas.clientWidth,height=this.canvas.clientHeight;if(this.canvas.width!==width*dpr||this.canvas.height!==height*dpr){this.canvas.width=width*dpr;this.canvas.height=height*dpr;}const c=this.context;c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,width,height);c.lineWidth=1;c.strokeStyle='#e0e5e0';for(let i=0;i<4;i++){const y=8+(height-16)*i/3;c.beginPath();c.moveTo(0,y);c.lineTo(width,y);c.stroke();}for(let channel=0;channel<this.values.length;channel++){c.strokeStyle=this.colors[channel];c.lineWidth=1.3;c.beginPath();for(let i=0;i<this.count;i++){const index=(this.head-this.count+i+360)%360,x=i/359*width,y=height-8-(this.values[channel][index]-this.min)/(this.max-this.min)*(height-16);if(i===0)c.moveTo(x,y);else c.lineTo(x,y);}c.stroke();}}
+}

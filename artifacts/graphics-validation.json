@@ -1,0 +1,21 @@
+{
+  "checks": [
+    "scene and worker start",
+    "pause and exact 1 ms step",
+    "ultra pipeline and effect toggles",
+    "three lighting presets",
+    "four camera modes",
+    "wireframe and floor markings",
+    "settings tabs",
+    "focus mode and escape",
+    "PNG screenshot export",
+    "performance preset and mobile layout",
+    "no JavaScript or shader errors"
+  ],
+  "timings": {
+    "balanced": {
+      "fps": "56 FPS",
+      "cpuRenderMs": "4.93"
+    }
+  }
+}

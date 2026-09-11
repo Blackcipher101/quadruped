@@ -1,0 +1,57 @@
+{
+  "method": "Simulation-evaluated clearance curriculum on the trained flat-ground policy",
+  "parameters": {
+    "period": 0.4375174247381258,
+    "duty": 0.6251360743290014,
+    "height": 0.3358069608959876,
+    "clearance": 0.075,
+    "strideGain": 2.090289883813001,
+    "balance": 0.48592548102893046,
+    "velocityGain": 0.03369483111346581,
+    "feedforward": 0.07232348027060946,
+    "kp": 92.26767197169781,
+    "kd": 4.087421606281104,
+    "footOffset": -0.04703547775902453
+  },
+  "history": [
+    {
+      "clearance": 0.075,
+      "aliveSeconds": 10,
+      "position": [
+        1.132137543411122,
+        -0.16304516924075568,
+        0.34736064507184683
+      ],
+      "minHeight": 0.3371959744546405,
+      "maxPenetration": 0.0013306981217374725,
+      "rockMotion": 0.9265841964749321,
+      "meanStepMs": 9.891641585841416
+    },
+    {
+      "clearance": 0.095,
+      "aliveSeconds": 10,
+      "position": [
+        0.99455179877917,
+        -0.09879626494871313,
+        0.3456874178717434
+      ],
+      "minHeight": 0.3371487852302085,
+      "maxPenetration": 0.0007038852116122429,
+      "rockMotion": 0.7922775269996143,
+      "meanStepMs": 625.7239478761123
+    },
+    {
+      "clearance": 0.115,
+      "aliveSeconds": 10,
+      "position": [
+        1.0994189576214002,
+        -0.1344966212178214,
+        0.34621477181677274
+      ],
+      "minHeight": 0.3379204867944547,
+      "maxPenetration": 0.00017431382089688752,
+      "rockMotion": 0.8340939405888684,
+      "meanStepMs": 834.6554723111689
+    }
+  ]
+}
