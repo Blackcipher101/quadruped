@@ -7,6 +7,23 @@ npm install
 npm run dev
 ```
 
+## Demo
+
+| Trained trot on loose gravel (40 dynamic rocks) | Experimental SPH water |
+|---|---|
+| ![Quadruped trotting over loose gravel](docs/media/gravel-walk-5x.gif) | ![Quadruped beside the SPH water volume](docs/media/water-5x.gif) |
+| [mp4](docs/media/gravel-walk.mp4) · physics ran at 0.17x real time; GIF sped up 5x | [mp4](docs/media/water.mp4) · 0.16x real time; GIF sped up 5x |
+
+![Trained trot on flat ground, real time, with the footprint overlay](docs/media/flat-trot.gif)
+
+*Flat-ground trot with the footprint overlay, real time (1.01x). [mp4](docs/media/flat-trot.mp4).*
+
+Captured 2026-11-06 with `scripts/capture-demo.mjs` in system Chrome on an RTX 5080 desktop, rendering on the GPU. The
+real-time factors come from the simulator's own clock: simulated seconds divided by wall seconds over each clip. Every
+link pose is taken from the physics Worker; the renderer adds no animation.
+
+
+
 Open http://localhost:5173. Vite supplies the COOP/COEP headers required by SharedArrayBuffer. Opening `index.html` directly will not work. `npm run build` creates `dist/`; `npm run preview` also supplies the required headers.
 
 ## Use
@@ -28,6 +45,7 @@ The rendered link poses come only from the physics Worker. Rendering interpolate
 npm test
 npm run build
 node scripts/browser-smoke.mjs
+node scripts/capture-demo.mjs   # README GIF sources: screenshots + webm per scene (HEADED=1 for GPU rendering)
 ```
 
 The browser smoke check requires the development server and an installed Google Chrome. It saves desktop/mobile screenshots under `artifacts/`.
